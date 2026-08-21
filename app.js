@@ -181,9 +181,11 @@
   function memberCardHtml(m) {
     const pairs = pairMembersOf(m);
     const last = state.lastRecordDateByMember[m.id];
+    const initial = m.name ? m.name.trim().charAt(0) : '?';
     return `
     <div class="member-card" data-id="${m.id}">
       <div class="member-card-head">
+        <div class="member-avatar">${escapeHtml(initial)}</div>
         <div class="member-name">${escapeHtml(m.name)}</div>
       </div>
       <div class="member-meta">
