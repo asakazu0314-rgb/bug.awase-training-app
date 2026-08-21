@@ -1,4 +1,57 @@
-/* training app: 共通トークンは ../style.css を継承し、ここでは追加分のみ定義 */
+/* training app: このアプリ単体で完結するスタイル定義（親サイトのCSSには依存しません） */
+
+:root {
+  --bg: #f4f6f8;
+  --card-bg: #ffffff;
+  --text: #1a1d21;
+  --text-muted: #6b7280;
+  --primary: #1f6feb;
+  --primary-dark: #1554b8;
+  --primary-soft: #e8f0fe;
+  --good: #1a8a4a;
+  --warn: #c0392b;
+  --border: #e3e6ea;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+#app {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+}
+
+/* header / footer */
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  padding: 10px 0 6px;
+  text-align: center;
+}
+.app-header h1 {
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--primary-dark);
+}
+
+.app-footer {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin-top: 30px;
+}
 
 .conn-status {
   font-size: 0.8rem;
@@ -19,6 +72,31 @@
 }
 .setup-banner h2 { margin: 0 0 8px; font-size: 1rem; }
 .setup-banner p { margin: 0; font-size: 0.9rem; line-height: 1.5; }
+
+/* buttons */
+.btn-primary, .btn-secondary, .btn-danger {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  min-height: 44px;
+  cursor: pointer;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:active { background: var(--primary-dark); }
+.btn-secondary { background: #fff; color: var(--text); border: 1px solid var(--border); }
+.btn-danger { background: #fdecea; color: var(--warn); border: 1px solid #f3c6c1; }
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.95rem;
+  padding: 8px 4px;
+  min-height: 40px;
+}
+.btn-link.danger { color: var(--warn); }
 
 .btn-secondary.small, .btn-danger.small, .btn-primary.small {
   padding: 8px 14px;
@@ -48,14 +126,77 @@
 
 .header-actions { display: flex; gap: 8px; }
 
-/* member card extras */
-.member-card { cursor: pointer; }
+/* ================= 会員一覧：カードデザイン ================= */
+.members-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.members-header h2 { margin: 0; font-size: 1.1rem; }
+
+.members-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+@media (min-width: 720px) {
+  .members-list { grid-template-columns: repeat(2, 1fr); }
+}
+
+.member-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(31, 111, 235, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.member-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(31, 111, 235, 0.14), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+.member-card:active { transform: translateY(0); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06); }
+
+.member-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.member-avatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.member-name { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+
+.member-meta {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .member-card .pair-badge {
   display: inline-block;
-  margin-top: 6px;
+  margin-top: 10px;
   font-size: 0.75rem;
   color: var(--primary-dark);
-  background: #e8f0fe;
+  background: var(--primary-soft);
   padding: 2px 8px;
   border-radius: 999px;
 }
@@ -276,11 +417,73 @@
 
 .empty-msg { color: var(--text-muted); text-align: center; padding: 24px 0; }
 
+/* modals */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+}
+.modal.hidden { display: none; }
+
+.modal-box {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 20px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-box h3 { margin-top: 0; }
+.modal-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.modal-box form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.modal-box input, .modal-box textarea, .modal-box select {
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--bg);
+  font-family: inherit;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
 @media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --card-bg: #1e2126;
+    --text: #eef0f2;
+    --text-muted: #9aa1ab;
+    --border: #33373e;
+    --primary-soft: #223047;
+  }
+  .btn-secondary { background: #1e2126; color: var(--text); }
+  .modal-box { background: #1e2126; }
   .setup-banner { background: #3a2f0f; border-color: #6b5620; }
-  .member-card .pair-badge { background: #223047; }
   .inline-form input, .inline-form textarea, .inline-form select,
-  .exercise-chart-picker select, .set-add-row input, .search-input {
+  .exercise-chart-picker select, .set-add-row input, .search-input,
+  .modal-box input, .modal-box textarea, .modal-box select {
     background: #14161a;
   }
 }
