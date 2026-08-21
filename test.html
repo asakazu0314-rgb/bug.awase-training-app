@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+<h1>テスト結果</h1>
+<div id="result">確認中...</div>
+<script src="config.js"></script>
+<script>
+  const el = document.getElementById('result');
+  if (window.BUG_TRAINING_CONFIG) {
+    el.textContent = 'config.js 読み込み成功: URL=' + window.BUG_TRAINING_CONFIG.SUPABASE_URL;
+  } else {
+    el.textContent = 'config.js 読み込み失敗（BUG_TRAINING_CONFIGが未定義）';
+  }
+</script>
+</body>
+</html>
